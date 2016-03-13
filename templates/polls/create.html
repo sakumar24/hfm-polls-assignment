@@ -1,0 +1,15 @@
+{% extends "polls/base.html" %}
+{% load bootstrap %}
+
+{% block content %}
+
+<h2 class="text-center">Add a Question</h2>
+
+<form method='POST' action="">
+	{% csrf_token %}
+	{{ PollForm|bootstrap }}
+	<br/>
+	<input type="submit" name="save" value="Save Poll" class="btn btn-primary " />
+</form>
+
+{% endblock %}

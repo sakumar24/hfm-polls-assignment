@@ -1,0 +1,14 @@
+{% extends "polls/base.html" %}
+
+{% block content %}
+
+{% if message %}<h4 style="color:green;">{{ message }}</h4>{% endif %}
+<h2 class="text-center">Links for the Question</h2>
+<h3>{{ question.question }}</h3>
+	<ul class="nav navbar-nav">
+          <li class="active"><a href="{{ vote_url }}">Cast Vote for the Question</a></li>
+          <li class="active"><a href="{{ result_url }}">Result of the Poll </a></li>
+    </ul>
+
+{% endblock %}
+

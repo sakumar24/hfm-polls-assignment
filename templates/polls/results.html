@@ -1,0 +1,60 @@
+{% extends "polls/base.html" %}
+
+{% block style %}
+	.chart {
+          display: table;
+          table-layout: fixed;
+          width: 60%;
+          max-width: 700px;
+          height: 200px;
+          margin: 0 auto;
+          background-image: linear-gradient(to top, rgba(0, 0, 0, 0.1) 2%, rgba(0, 0, 0, 0) 2%);
+          background-size: 100% 50px;
+          background-position: left top;
+        }
+        .chart li {
+          position: relative;
+          display: table-cell;
+          vertical-align: bottom;
+          height: 200px;
+        }
+        .chart span {
+          margin: 0 1em;
+          display: block;
+          background: rgba(209, 236, 250, 0.75);
+          animation: draw 1s ease-in-out;
+        }
+        .chart span:before {
+          position: absolute;
+          left: 0;
+          right: 0;
+          top: 100%;
+          padding: 5px 1em 0;
+          display: block;
+          text-align: center;
+          content: attr(title);
+          word-wrap: break-word;
+        }
+
+        @keyframes draw {
+          0% {
+            height: 0;
+          }
+        }
+{% endblock %}
+
+{% block content %}
+
+{% if error_message %}<h4 style="color:red;">{{ error_message }}</h4>{% endif %}
+
+<h2 class="text-center">Polls results for the Question</h2>
+<h3>{{ question.question }}</h3>
+
+<ul class="chart">
+{% for choice,percentage in vote_percentage.items %}
+	 <li>
+	    <span style="height:{{ percentage }}%" title="{{ choice }}"></span>
+	 </li>
+{% endfor %}
+</ul>
+{% endblock %}

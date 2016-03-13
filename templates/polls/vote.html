@@ -1,0 +1,21 @@
+{% extends "polls/base.html" %}
+
+{% block content %}
+
+<h2 class="text-center">Cast your Vote</h2>
+<h3>{{ question.question }}</h3>
+
+{% if error_message %}<h4 style="color:red;">{{ error_message }}</h4>{% endif %}
+
+<form action="{% url 'vote' question.id %}" method="post">
+{% csrf_token %}
+{% for choice in question.choice_set.all %}
+    <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" />
+    <label for="choice{{ forloop.counter }}">{{ choice.choice }}</label><br />
+{% endfor %}
+<input type="submit" value="Vote" class="btn btn-primary" />
+</form>
+
+<h4>Url to the poll: {{ request.build_absolute_uri }}</h4>
+
+{% endblock %}

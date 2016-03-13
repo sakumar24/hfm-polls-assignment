@@ -1,0 +1,21 @@
+{% extends "polls/base.html" %}
+
+{% block content %}
+
+	<h2 class="text-center">Welcome</h2>
+	<h3>List of of latest polls:</h3>
+	{% if question_list %}
+    <table class="table">
+    {% for question in question_list %}
+        <tr>
+        	<th>{{ question.question }}</th>
+        	<th><a href="/polls/{{ question.id }}/vote">Cast Vote for the Question</a></th>
+          	<th><a href="/polls/{{ question.id }}/results">Result of the Poll </a></th>
+        </tr>
+    {% endfor %}
+    </table>
+	{% else %}
+	    <p>No polls are available.</p>
+	{% endif %}
+
+{% endblock %}
