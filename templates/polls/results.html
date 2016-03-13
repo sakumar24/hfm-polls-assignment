@@ -53,7 +53,7 @@
 <ul class="chart">
 {% for choice,percentage in vote_percentage.items %}
 	 <li>
-	    <span style="height:{{ percentage }}%" title="{{ choice }}"></span>
+	    <span style="height:{{ percentage }}%" title="{{ choice }} ">{{ percentage }}%</span>
 	 </li>
 {% endfor %}
 </ul>

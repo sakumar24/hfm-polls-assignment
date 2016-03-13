@@ -47,7 +47,6 @@ def vote(request, question_id):
     if 'ids' in request.COOKIES:
         answerd_ids = request.COOKIES['ids']
 
-    print(answerd_ids)
     # Check if question id already in aswered ids
     if str(question.id) in answerd_ids.split(','):
 
@@ -57,7 +56,7 @@ def vote(request, question_id):
             'vote_percentage' : vote_percentage,
             'error_message' : "You have already aswered the question.",
         }
-        # Render results page for the question
+        # Render results page for the question with error
         return render(request, 'polls/results.html', context)
 
     try:
@@ -114,6 +113,8 @@ def getVotePercentage(question):
     for choice in question.choice_set.all():
         total_votes += choice.votes
     
+    if total_votes == 0:
+        total_votes = 1  
     vote_percentage = {}
     for choice in question.choice_set.all():
         per = choice.votes/total_votes*100
