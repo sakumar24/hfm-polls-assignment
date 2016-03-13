@@ -11,7 +11,7 @@ class IndexView(generic.ListView):
 
     def get_queryset(self):
         # Return latest 10 polls 
-        return Question.objects.order_by('-date')[:10]
+        return Question.objects.order_by('-date')[:20]
 
 def create(request):
     # If request method is not POST, create new form 
@@ -51,9 +51,11 @@ def vote(request, question_id):
     # Check if question id already in aswered ids
     if str(question.id) in answerd_ids.split(','):
 
-        context = {
-        'question': question,
-        'error_message' : "You have already aswered the question."
+        vote_percentage = getVotePercentage(question)
+        context ={
+            'question' : question,
+            'vote_percentage' : vote_percentage,
+            'error_message' : "You have already aswered the question.",
         }
         # Render results page for the question
         return render(request, 'polls/results.html', context)
@@ -85,15 +87,7 @@ def vote(request, question_id):
 def results(request,question_id):
     question = get_object_or_404(Question, pk=question_id)
 
-    total_votes = 0
-    for choice in question.choice_set.all():
-        total_votes += choice.votes
-    
-    vote_percentage = {}
-    for choice in question.choice_set.all():
-        per = choice.votes/total_votes*100
-        vote_percentage[choice.choice] = per
-
+    vote_percentage = getVotePercentage(question)
     context ={
         'question' : question,
         'vote_percentage' : vote_percentage,
@@ -114,3 +108,15 @@ def links(request,question_id):
         'result_url' : result_url,
      }
      return render(request,'polls/links.html',context)
+
+def getVotePercentage(question):
+    total_votes = 0
+    for choice in question.choice_set.all():
+        total_votes += choice.votes
+    
+    vote_percentage = {}
+    for choice in question.choice_set.all():
+        per = choice.votes/total_votes*100
+        vote_percentage[choice.choice] = per
+
+    return vote_percentage
